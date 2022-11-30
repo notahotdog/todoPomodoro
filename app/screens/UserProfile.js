@@ -1,17 +1,20 @@
 import React from "react";
-import { View } from "react-native-web";
+import { View, StyleSheet, Text } from "react-native";
 
-//Handle Pomodoro Countdown Function
-function PomodoroScreen(props) {
+function UserProfile(props) {
   return (
     <View style={styles.container}>
-      <Text>Pomodoro Screen</Text>
+      <Text style={styles.title}>Alice </Text>
+      <Text>Profile </Text>
+      <Text>Change Mode</Text>
+      <Text> Block Notification</Text>
+      <Text>Help</Text>
+      <Text>Sign Out</Text>
     </View>
   );
 }
 
-export default PomodoroScreen;
-
+export default UserProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

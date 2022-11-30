@@ -17,6 +17,8 @@ import WorkScreen from "./app/screens/WorkScreen";
 import SetPomodoroScreen from "./app/screens/SetPomodoroScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import MessageScreen from "./app/screens/MessageScreen";
+import UserProfile from "./app/screens/UserProfile";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
@@ -36,6 +38,7 @@ export default function App() {
         <Stack.Screen name="Mode" component={ModeScreen} />
         <Stack.Screen name="Work" component={WorkScreen} />
         <Stack.Screen name="SetPomodoro" component={SetPomodoroScreen} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
         {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
