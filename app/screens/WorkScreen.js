@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Icon, Dialog, Button, Text, Slider, ListItem } from "@rneui/themed";
+import {
+  Icon,
+  Dialog,
+  Button,
+  Text,
+  Slider,
+  ListItem,
+  CheckBox,
+  Input,
+} from "@rneui/themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
@@ -13,19 +22,87 @@ function WorkScreen({ navigation }) {
     setVisible(!visible);
   };
 
-  //Set Pomodoro Data
-  // const [pomodoroSetting, setPomodoroSetting] = useState({
-  //   timeInterval: 20,
-  //   shortBreak: 15,
-  //   longBreak: 25,
-  //   oneLoop: 4,
-  // });
+  //Modal Popup - Add task
+  const [taskAddVisible, setTaskAddVisible] = useState(false);
+  const toggleAddTaskDialog = () => {
+    setTaskAddVisible(!taskAddVisible);
+  };
+
+  //Test Data
+  const taskList = [
+    {
+      uid: 0,
+      title: "Task 1",
+      description: "task 1 description",
+      date: "01/11/12",
+      completed: false,
+    },
+    {
+      uid: 1,
+      title: "Task 2",
+      description: "task 2 description",
+      date: "12/12/22",
+      completed: false,
+    },
+    {
+      uid: 2,
+      title: "Task 3",
+      description: "task 3 description",
+      date: "13/12/22",
+      completed: false,
+    },
+  ];
+
+  // const [todoList, setTodoList] = useState(list); //sets todoList
+  const [todoList, setTodoList] = useState(taskList); //sets todoList
+
+  //addTask
+  const [addTaskTitle, setAddTaskTitle] = useState("");
+  const [addTaskDescription, setAddTaskDescription] = useState("");
+  const [addTaskDate, setAddTaskDate] = useState("");
 
   //Pomodoro Data
   const [timeInterval, setTimeInterval] = useState(20);
   const [shortBreak, setShortBreak] = useState(15);
   const [longBreak, setLongBreak] = useState(25);
   const [oneLoop, setOneLoop] = useState(4);
+
+  const [check, setCheck] = useState(true);
+
+  //Store in a list and clear previous data
+  function addTask() {
+    console.log("Task Added");
+
+    const obj = {
+      uid: 1,
+      title: addTaskTitle,
+      description: addTaskDescription,
+      date: addTaskDate,
+      completed: false,
+    };
+
+    setAddTaskTitle("");
+    setAddTaskDescription("");
+    setAddTaskDate("");
+    toggleAddTaskDialog();
+  }
+
+  function deleteTask(uid) {
+    const id = uid;
+    console.log("Deleting Task");
+    console.log("uid: ", uid);
+    let updatedTodoList = [];
+    todoList.forEach((item, i) => {
+      if (item.uid != id) {
+        updatedTodoList = [...updatedTodoList, item];
+      }
+    });
+    setTodoList(updatedTodoList);
+  }
+
+  function setTaskComplete(uid) {
+    console.log("Updating task state");
+  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -36,10 +113,70 @@ function WorkScreen({ navigation }) {
         onPress={() => navigation.navigate("UserProfile")}
       />
       <Text>Work Screen</Text>
-      <Text>My TodoList</Text>
+      <Text>My TodoList List</Text>
 
-      {/* <Ionicons name="md-checkmark-circle" size={32} color="green" /> */}
       <Text>My Pomodoro </Text>
+      {/* 
+      <View style={{ width: "100%" }}>
+        {todoList.map((item, i) => (
+          <ListItem key={i} bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title>{item.title}</ListItem.Title>
+            </ListItem.Content>
+            <Icon name="delete" type="antd" />
+            <CheckBox center checked={check} onPress={() => setCheck(!check)} />
+            <ListItem.Chevron />
+          </ListItem>
+        ))}
+      </View> */}
+      <View style={{ width: "100%" }}>
+        {todoList.map((item, i) => (
+          <ListItem key={i} bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title>{item.title}</ListItem.Title>
+            </ListItem.Content>
+            <Icon
+              name="delete"
+              type="antd"
+              onPress={() => deleteTask(item.uid)}
+            />
+            <CheckBox center checked={check} onPress={() => setCheck(!check)} />
+            <ListItem.Chevron />
+          </ListItem>
+        ))}
+      </View>
+
+      <Button
+        title="Add Task "
+        color="secondary"
+        onPress={toggleAddTaskDialog}
+      />
+      <Dialog isVisible={taskAddVisible} onBackdropPress={toggleAddTaskDialog}>
+        <Dialog.Title title="Pomodoro Setting " />
+        <Text>Task Title: {addTaskTitle}</Text>
+        <Input
+          placeholder=" "
+          onChangeText={(value) => setAddTaskTitle(value)}
+        />
+        <Text>Description: {addTaskDescription}</Text>
+        <Input
+          placeholder=" "
+          onChangeText={(value) => setAddTaskDescription(value)}
+        />
+        <Text>Date {addTaskDate}</Text>
+        <Input
+          placeholder=" "
+          onChangeText={(value) => setAddTaskDate(value)}
+        />
+
+        <Dialog.Actions>
+          <Dialog.Button
+            title="Add Task"
+            // onPress={() => console.log("Task Added!")}
+            onPress={addTask}
+          />
+        </Dialog.Actions>
+      </Dialog>
 
       <Text>{timeInterval} : 00</Text>
 
