@@ -53,7 +53,6 @@ function WorkScreen({ navigation }) {
     },
   ];
 
-  // const [todoList, setTodoList] = useState(list); //sets todoList
   const [todoList, setTodoList] = useState(taskList); //sets todoList
 
   //addTask
@@ -89,8 +88,6 @@ function WorkScreen({ navigation }) {
 
   function deleteTask(uid) {
     const id = uid;
-    console.log("Deleting Task");
-    console.log("uid: ", uid);
     let updatedTodoList = [];
     todoList.forEach((item, i) => {
       if (item.uid != id) {
@@ -101,7 +98,36 @@ function WorkScreen({ navigation }) {
   }
 
   function setTaskComplete(uid) {
-    console.log("Updating task state");
+    let updatedTodoList = [];
+    todoList.forEach((item, i) => {
+      if (item.uid == uid) {
+        const toggleFalse = {
+          uid: item.uid,
+          title: item.title,
+          description: item.description,
+          date: item.date,
+          completed: false,
+        };
+
+        const toggleTrue = {
+          uid: item.uid,
+          title: item.title,
+          description: item.description,
+          date: item.date,
+          completed: true,
+        };
+        let tempItem;
+        if (item.completed) {
+          tempItem = { ...toggleFalse };
+        } else {
+          tempItem = { ...toggleTrue };
+        }
+        updatedTodoList = [...updatedTodoList, tempItem];
+      } else {
+        updatedTodoList = [...updatedTodoList, item];
+      }
+    });
+    setTodoList(updatedTodoList);
   }
 
   return (
@@ -116,19 +142,6 @@ function WorkScreen({ navigation }) {
       <Text>My TodoList List</Text>
 
       <Text>My Pomodoro </Text>
-      {/* 
-      <View style={{ width: "100%" }}>
-        {todoList.map((item, i) => (
-          <ListItem key={i} bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title>{item.title}</ListItem.Title>
-            </ListItem.Content>
-            <Icon name="delete" type="antd" />
-            <CheckBox center checked={check} onPress={() => setCheck(!check)} />
-            <ListItem.Chevron />
-          </ListItem>
-        ))}
-      </View> */}
       <View style={{ width: "100%" }}>
         {todoList.map((item, i) => (
           <ListItem key={i} bottomDivider>
@@ -140,7 +153,11 @@ function WorkScreen({ navigation }) {
               type="antd"
               onPress={() => deleteTask(item.uid)}
             />
-            <CheckBox center checked={check} onPress={() => setCheck(!check)} />
+            <CheckBox
+              center
+              checked={item.completed}
+              onPress={() => setTaskComplete(item.uid)}
+            />
             <ListItem.Chevron />
           </ListItem>
         ))}
