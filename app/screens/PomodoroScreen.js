@@ -2,35 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { Dialog, LinearProgress } from "@rneui/themed";
 
-//Handle Pomodoro Countdown Function
 function PomodoroScreen({ route, navigation }) {
   const { uid, title, description, date, completed, timeInterval, shortBreak } =
     route.params;
-  // initialize timeLeft with the seconds prop
-  const [timeLeft, setTimeLeft] = useState(0);
 
-  useEffect(() => {
-    if (!timeLeft) return; // exit when we reach 0
-
-    // save intervalId to clear the interval when the
-    // component re-renders
-    const intervalId = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-
-    // clear interval on re-render to avoid memory leaks
-    return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
-  }, [timeLeft]);
-
-  //Start pomodoro session
-  function startSession() {
-    var timeLeft = parseInt(timeInterval) * 60; //Convert minutes to seconds
-    setTimeLeft(timeLeft);
-  }
-
-  //Handle displays for seconds
+  //Converts seconds to - hour-minutes-seconds
   function secondsToHms(d) {
     d = Number(d);
     var h = Math.floor(d / 3600);
@@ -43,32 +19,45 @@ function PomodoroScreen({ route, navigation }) {
     return hDisplay + mDisplay + sDisplay;
   }
 
-  //Return decimal point
+  //Pomodoro Countdown
+  const [timeLeft, setTimeLeft] = useState(0); // initialize timeLeft with the seconds prop
+  useEffect(() => {
+    if (!timeLeft) return; // exit when we reach 0
+    const intervalId = setInterval(() => {
+      setTimeLeft(timeLeft - 1); //save intervalId to clear the interval when component re-renders
+    }, 1000);
+    return () => clearInterval(intervalId); //clear interval on rerender to avoid memory leaks
+  }, [timeLeft]); //add timeLeft as a dependency to re-run the effect when we update
+
+  //Start Pomodoro session
+  function startSession() {
+    var timeLeft = parseInt(timeInterval) * 60; //Convert minutes to seconds
+    setTimeLeft(timeLeft);
+  }
+
+  //Returns progress update as a decimal point
   function progressUpdate() {
     var percentage = 1 - timeLeft / (timeInterval * 60);
     return percentage;
   }
 
-  //Break Dialog
-  const [breakDialogVisible, setBreakDialogVisible] = useState(false);
+  //Break
+  const [breakDialogVisible, setBreakDialogVisible] = useState(false); //Break Dialog
+  const [breakTimeLeft, setBreakTimeLeft] = useState(shortBreak);
+
   const toggleBreakDialog = () => {
     setBreakDialogVisible(!breakDialogVisible);
   };
 
-  // //Set timer for break
-  const [breakTimeLeft, setBreakTimeLeft] = useState(shortBreak);
-
-  // //Start short Break session
-
+  //Break Logic
   const [time, setTime] = useState(0);
   const [referenceTime, setReferenceTime] = useState(Date.now());
+  const INTERVAL_IN_MILISECONDS = 100;
 
   function startShortBreakSession() {
     const TIME_IN_MILISECONDS_TO_COUNTDOWN = 60 * shortBreak * 1000;
     setTime(TIME_IN_MILISECONDS_TO_COUNTDOWN);
   }
-  const INTERVAL_IN_MILISECONDS = 100;
-
   useEffect(() => {
     const countDownUntilZero = () => {
       setTime((prevTime) => {
@@ -80,7 +69,6 @@ function PomodoroScreen({ route, navigation }) {
         return prevTime - interval;
       });
     };
-
     setTimeout(countDownUntilZero, INTERVAL_IN_MILISECONDS);
   }, [time]);
 
@@ -92,7 +80,7 @@ function PomodoroScreen({ route, navigation }) {
         value={progressUpdate()}
         color="primary"
         variant="determinate"
-        width="70%" // trackColor="green"
+        width="70%"
       />
 
       {/* <Text>
@@ -106,7 +94,6 @@ function PomodoroScreen({ route, navigation }) {
         <Text>Interval: {timeInterval} mins</Text>
         <Text>Total time left: {secondsToHms(timeLeft)} </Text>
       </View>
-      <Text>timeLeft: {timeLeft}</Text>
       <Button
         title="Session Completed"
         disabled={timeLeft != 0}
@@ -118,13 +105,14 @@ function PomodoroScreen({ route, navigation }) {
         onBackdropPress={toggleBreakDialog}
       >
         <Dialog.Title title="Have a Break" />
-        <Text>Break Duration left: {secondsToHms(breakTimeLeft)} </Text>
-        <Text>break time left: {breakTimeLeft}</Text>
+        <Text>
+          Break Duration left: {secondsToHms((time / 1000).toFixed(0))}{" "}
+        </Text>
+
         <Button title="Start Break Session" onPress={startShortBreakSession} />
         <Text>
           Its important to meditate sometimes and let you brain have a rest!
         </Text>
-        <Text> {(time / 1000).toFixed(1)}s</Text>
       </Dialog>
     </View>
   );

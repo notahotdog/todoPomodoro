@@ -9,14 +9,12 @@ import {
   CheckBox,
   Input,
 } from "@rneui/themed";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 //Create the modal for setting pomodoro time
 function WorkScreen({ navigation }) {
   const [currentInterval, setCurrentInterval] = useState(1);
-  const [breakTime, setBreakTime] = useState(false);
 
   //Modal Popup - Pomodoro Setting
   const [visible, setVisible] = useState(false);
@@ -28,6 +26,24 @@ function WorkScreen({ navigation }) {
   const [taskAddVisible, setTaskAddVisible] = useState(false);
   const toggleAddTaskDialog = () => {
     setTaskAddVisible(!taskAddVisible);
+  };
+
+  const maxMin = {
+    tiMax: 50,
+    tiMin: 1,
+    sbMax: 10,
+    sbMin: 1,
+    lbMax: 59,
+    lbMin: 1,
+    olMax: 10,
+    olMin: 1,
+  };
+
+  const settingsPreset = {
+    ti: 4,
+    sb: 5,
+    lb: 20,
+    ol: 4,
   };
 
   const taskList = [
@@ -63,15 +79,13 @@ function WorkScreen({ navigation }) {
   const [addTaskDate, setAddTaskDate] = useState("");
 
   //Pomodoro Data
-  const [timeInterval, setTimeInterval] = useState(1);
-  const [shortBreak, setShortBreak] = useState(15);
-  const [longBreak, setLongBreak] = useState(25);
-  const [oneLoop, setOneLoop] = useState(4);
+  const [timeInterval, setTimeInterval] = useState(settingsPreset.ti);
+  const [shortBreak, setShortBreak] = useState(settingsPreset.sb);
+  const [longBreak, setLongBreak] = useState(settingsPreset.lb);
+  const [oneLoop, setOneLoop] = useState(settingsPreset.ol);
 
   //Store in a list and clear previous data
   function addTask() {
-    console.log("Task Added");
-
     const newTask = {
       uid: uidCtr,
       title: addTaskTitle,
@@ -132,11 +146,8 @@ function WorkScreen({ navigation }) {
     setTodoList(updatedTodoList);
   }
 
-  //Navigate to the the Pomodoro Page
+  //Navigate to the the Pomodoro Page TODO- Refactor to just include the uid
   function navigateToTaskPomodoro(item) {
-    //Should pass the index of the value
-
-    //Handle Should pass the minutes
     const dataPassed = { ...item, timeInterval, shortBreak, longBreak };
     navigation.navigate("Pomodoro", dataPassed);
   }
@@ -227,8 +238,8 @@ function WorkScreen({ navigation }) {
           <Slider
             value={timeInterval}
             onValueChange={setTimeInterval}
-            maximumValue={10}
-            minimumValue={0}
+            maximumValue={maxMin.tiMax}
+            minimumValue={maxMin.tiMin}
             step={1}
             allowTouchTrack
             trackStyle={{ height: 5, backgroundColor: "transparent" }}
@@ -257,8 +268,8 @@ function WorkScreen({ navigation }) {
           <Slider
             value={shortBreak}
             onValueChange={setShortBreak}
-            maximumValue={10}
-            minimumValue={0}
+            maximumValue={maxMin.sbMax}
+            minimumValue={maxMin.sbMin}
             step={1}
             allowTouchTrack
             trackStyle={{ height: 5, backgroundColor: "transparent" }}
@@ -286,8 +297,8 @@ function WorkScreen({ navigation }) {
           <Slider
             value={longBreak}
             onValueChange={setLongBreak}
-            maximumValue={10}
-            minimumValue={0}
+            maximumValue={maxMin.lbMax}
+            minimumValue={maxMin.lbMin}
             step={1}
             allowTouchTrack
             trackStyle={{ height: 5, backgroundColor: "transparent" }}
@@ -315,8 +326,8 @@ function WorkScreen({ navigation }) {
           <Slider
             value={oneLoop}
             onValueChange={setOneLoop}
-            maximumValue={10}
-            minimumValue={0}
+            maximumValue={maxMin.olMax}
+            minimumValue={maxMin.olMin}
             step={1}
             allowTouchTrack
             trackStyle={{ height: 5, backgroundColor: "transparent" }}
