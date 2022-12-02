@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Icon,
   Dialog,
@@ -14,8 +14,6 @@ import { View } from "react-native";
 
 //Create the modal for setting pomodoro time
 function WorkScreen({ navigation }) {
-  const [currentInterval, setCurrentInterval] = useState(1);
-
   //Modal Popup - Pomodoro Setting
   const [visible, setVisible] = useState(false);
   const toggleDialog = () => {
@@ -152,6 +150,31 @@ function WorkScreen({ navigation }) {
     navigation.navigate("Pomodoro", dataPassed);
   }
 
+  const [enableLongBreak, setEnableLongBreak] = useState(false);
+
+  //Triggers a new checkComplete with every re-render
+  useEffect(() => {
+    checkCompleted();
+  });
+
+  const [noTaskCompleted, setNoTaskCompleted] = useState(1);
+
+  function checkCompleted() {
+    var checkCtr = oneLoop;
+    var completedCtr = 0;
+    todoList.forEach((item, i) => {
+      if (item.completed == true) {
+        completedCtr += 1;
+      }
+    });
+    setNoTaskCompleted(completedCtr);
+    if (checkCtr == completedCtr) {
+      setEnableLongBreak(true);
+    } else {
+      setEnableLongBreak(false);
+    }
+  }
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <AntDesign
@@ -211,18 +234,17 @@ function WorkScreen({ navigation }) {
         />
 
         <Dialog.Actions>
-          <Dialog.Button
-            title="Add Task"
-            // onPress={() => console.log("Task Added!")}
-            onPress={addTask}
-          />
+          <Dialog.Button title="Add Task" onPress={addTask} />
         </Dialog.Actions>
       </Dialog>
 
       <Text>Time Interval :{timeInterval} : 00</Text>
+      {/* Pomodoro Completed: {currentInterval} / {oneLoop} */}
       <Text>
-        Pomodoro Completed: {currentInterval} / {oneLoop}
+        {noTaskCompleted} / {oneLoop}
       </Text>
+
+      <Text>Enable long break: {String(enableLongBreak)}</Text>
 
       <AntDesign
         name="setting"
