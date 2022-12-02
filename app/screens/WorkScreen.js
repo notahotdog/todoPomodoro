@@ -12,10 +12,17 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Create the modal for setting pomodoro time
 
 function WorkScreen({ navigation }) {
+  const [currentInterval, setCurrentInterval] = useState(1);
+  const [breakTime, setBreakTime] = useState(false);
+
+  //Implement logic for toggling between
+
   //Modal Popup - Pomodoro Setting
   const [visible, setVisible] = useState(false);
   const toggleDialog = () => {
@@ -54,6 +61,7 @@ function WorkScreen({ navigation }) {
   ];
 
   const [todoList, setTodoList] = useState(taskList); //sets todoList
+  const [uidCtr, setUidCtr] = useState(3);
 
   //addTask
   const [addTaskTitle, setAddTaskTitle] = useState("");
@@ -66,20 +74,20 @@ function WorkScreen({ navigation }) {
   const [longBreak, setLongBreak] = useState(25);
   const [oneLoop, setOneLoop] = useState(4);
 
-  const [check, setCheck] = useState(true);
-
   //Store in a list and clear previous data
   function addTask() {
     console.log("Task Added");
 
-    const obj = {
-      uid: 1,
+    const newTask = {
+      uid: uidCtr,
       title: addTaskTitle,
       description: addTaskDescription,
       date: addTaskDate,
       completed: false,
     };
-
+    setUidCtr(uidCtr + 1);
+    const updatedTodoList = [...todoList, newTask];
+    setTodoList(updatedTodoList);
     setAddTaskTitle("");
     setAddTaskDescription("");
     setAddTaskDate("");
@@ -130,6 +138,15 @@ function WorkScreen({ navigation }) {
     setTodoList(updatedTodoList);
   }
 
+  //Navigate to the the Pomodoro Page
+  function navigateToTaskPomodoro(item) {
+    //Should pass the index of the value
+
+    //Handle Should pass the minutes
+    const dataPassed = { ...item, timeInterval };
+    navigation.navigate("Pomodoro", dataPassed);
+  }
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <AntDesign
@@ -146,7 +163,9 @@ function WorkScreen({ navigation }) {
         {todoList.map((item, i) => (
           <ListItem key={i} bottomDivider>
             <ListItem.Content>
-              <ListItem.Title>{item.title}</ListItem.Title>
+              <ListItem.Title onPress={() => navigateToTaskPomodoro(item)}>
+                {item.title}
+              </ListItem.Title>
             </ListItem.Content>
             <Icon
               name="delete"
@@ -195,7 +214,10 @@ function WorkScreen({ navigation }) {
         </Dialog.Actions>
       </Dialog>
 
-      <Text>{timeInterval} : 00</Text>
+      <Text>Time Interval :{timeInterval} : 00</Text>
+      <Text>
+        Pomodoro Completed: {currentInterval} / {oneLoop}
+      </Text>
 
       <AntDesign
         name="setting"
