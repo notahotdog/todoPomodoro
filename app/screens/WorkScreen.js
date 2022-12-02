@@ -12,16 +12,11 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Create the modal for setting pomodoro time
-
 function WorkScreen({ navigation }) {
   const [currentInterval, setCurrentInterval] = useState(1);
   const [breakTime, setBreakTime] = useState(false);
-
-  //Implement logic for toggling between
 
   //Modal Popup - Pomodoro Setting
   const [visible, setVisible] = useState(false);
@@ -35,7 +30,6 @@ function WorkScreen({ navigation }) {
     setTaskAddVisible(!taskAddVisible);
   };
 
-  //Test Data
   const taskList = [
     {
       uid: 0,
@@ -69,7 +63,7 @@ function WorkScreen({ navigation }) {
   const [addTaskDate, setAddTaskDate] = useState("");
 
   //Pomodoro Data
-  const [timeInterval, setTimeInterval] = useState(20);
+  const [timeInterval, setTimeInterval] = useState(1);
   const [shortBreak, setShortBreak] = useState(15);
   const [longBreak, setLongBreak] = useState(25);
   const [oneLoop, setOneLoop] = useState(4);
@@ -143,7 +137,7 @@ function WorkScreen({ navigation }) {
     //Should pass the index of the value
 
     //Handle Should pass the minutes
-    const dataPassed = { ...item, timeInterval };
+    const dataPassed = { ...item, timeInterval, shortBreak, longBreak };
     navigation.navigate("Pomodoro", dataPassed);
   }
 
