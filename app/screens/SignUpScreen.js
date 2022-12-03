@@ -1,59 +1,85 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../context/AppContext.js";
-import UserContext from "../context/UserContext";
-import Icon from "react-native-vector-icons/FontAwesome";
+import React, { useContext, useState, useCallback } from "react";
+import { useFonts } from "expo-font";
 import { Button, Input } from "@rneui/themed";
 
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  SafeAreaView,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 function SignUpScreen({ navigation }) {
   const [text, setText] = useState("");
+  const [fontsLoaded] = useFonts({
+    "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
+    "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
+    "OpenSans-Light": require("../assets/fonts/OpenSans-Light.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+  const BACKGROUND_COLOUR = "white";
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: BACKGROUND_COLOUR,
+      }}
+      onLayout={onLayoutRootView}
+    >
       <Text style={styles.titleText}> Sign Up </Text>
       <View
         style={{
           flexDirection: "row",
-          height: 100,
-          padding: 20,
+          height: "5%",
+          backgroundColor: BACKGROUND_COLOUR,
+          padding: 5,
         }}
       >
-        <View style={{ backgroundColor: "white", flex: 0.8 }}>
-          <Text> Already a Member? </Text>
+        <View style={{ backgroundColor: BACKGROUND_COLOUR, flex: 0.5 }}>
+          <Text style={styles.paragraphText}> Already a Member?</Text>
         </View>
-        <View style={{ backgroundColor: "white", flex: 0.2 }}>
-          <Text onPress={() => navigation.navigate("LogIn")}> Sign In</Text>
+        <View style={{ backgroundColor: BACKGROUND_COLOUR, flex: 0.3 }}>
+          <Text
+            style={styles.paragraphText2}
+            onPress={() => navigation.navigate("LogIn")}
+          >
+            {" "}
+            Log In
+          </Text>
         </View>
       </View>
+      <View
+        style={{
+          width: "100%",
+          height: "20%",
+          backgroundColor: BACKGROUND_COLOUR,
+          padding: 10,
+        }}
+      >
+        <Input
+          onChangeText={(value) => setText(value)}
+          placeholder="Email"
+          style={styles.emailField}
+        />
+        <Input
+          onChangeText={(value) => setText(value)}
+          placeholder="Password"
+          style={styles.passwordField}
+        />
+      </View>
 
-      <Input
-        onChangeText={(value) => setText(value)}
-        placeholder="email"
-        style={{
-          borderColor: "lightgray",
-          borderWidth: 1,
-          width: "80%",
-          height: "5%",
-        }}
+      <Button
+        title="Sign up"
+        color="#b833ff"
+        style={{ borderRadius: 5, overflow: "hidden" }}
+        onPress={() => navigation.navigate("Guide")}
       />
-      <Input
-        onChangeText={(value) => setText(value)}
-        placeholder="password"
-        style={{
-          borderColor: "lightgray",
-          borderWidth: 1,
-          width: "80%",
-          height: "5%",
-        }}
-      />
-      <Button title="Sign up" onPress={() => navigation.navigate("Guide")} />
     </View>
   );
 }
@@ -61,11 +87,34 @@ function SignUpScreen({ navigation }) {
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: "Cochin",
+  paragraphText: {
+    fontFamily: "OpenSans-Light",
+    fontSize: 20,
+  },
+  paragraphText2: {
+    fontFamily: "OpenSans-Medium",
+    fontWeight: "bold",
+    color: "#b833ff",
+    fontSize: 20,
   },
   titleText: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 35,
+    fontFamily: "OpenSans-Bold",
   },
+
+  emailField: {
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    borderWidth: 1,
+    width: "20%",
+    height: "5%",
+  },
+  passwordField: {
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    borderWidth: 1,
+    width: "80%",
+    height: "5%",
+  },
+  button: {},
 });

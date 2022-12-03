@@ -43,7 +43,7 @@ function PomodoroScreen({ route, navigation }) {
 
   //Break
   const [breakDialogVisible, setBreakDialogVisible] = useState(false); //Break Dialog
-  const [breakTimeLeft, setBreakTimeLeft] = useState(shortBreak);
+  // const [breakTimeLeft, setBreakTimeLeft] = useState(shortBreak);
 
   const toggleBreakDialog = () => {
     setBreakDialogVisible(!breakDialogVisible);

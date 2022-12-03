@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import {
   StyleSheet,
@@ -17,16 +16,17 @@ import WorkScreen from "./app/screens/WorkScreen";
 import SetPomodoroScreen from "./app/screens/SetPomodoroScreen";
 import HomeScreen from "./app/screens/HomeScreen";
 import MessageScreen from "./app/screens/MessageScreen";
-import UserProfile from "./app/screens/UserProfile";
+import UserProfileScreen from "./app/screens/UserProfileScreen";
 import PomodoroScreen from "./app/screens/PomodoroScreen";
+import ChangeModeScreen from "./app/screens/ChangeModeScreen";
+import BlockNotificationScreen from "./app/screens/BlockNotificationScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  console.log("Test Umar");
-  const handlePress = () => console.log("Text Clicked 2");
+  console.log("Starting App");
 
   return (
     <NavigationContainer>
@@ -40,7 +40,12 @@ export default function App() {
         <Stack.Screen name="Work" component={WorkScreen} />
         <Stack.Screen name="Pomodoro" component={PomodoroScreen} />
         <Stack.Screen name="SetPomodoro" component={SetPomodoroScreen} />
-        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+        <Stack.Screen name="ChangeMode" component={ChangeModeScreen} />
+        <Stack.Screen
+          name="BlockNotification"
+          component={BlockNotificationScreen}
+        />
         {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>

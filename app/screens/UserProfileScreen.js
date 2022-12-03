@@ -1,20 +1,22 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-function UserProfile(props) {
+function UserProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Alice </Text>
       <Text>Profile </Text>
-      <Text>Change Mode</Text>
-      <Text> Block Notification</Text>
-      <Text>Help</Text>
+      <Text onPress={() => navigation.navigate("ChangeMode")}>Change Mode</Text>
+      <Text onPress={() => navigation.navigate("BlockNotification")}>
+        Block Notification
+      </Text>
+      <Text onPress={() => navigation.navigate("Guide")}>Help</Text>
       <Text>Sign Out</Text>
     </View>
   );
 }
 
-export default UserProfile;
+export default UserProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
