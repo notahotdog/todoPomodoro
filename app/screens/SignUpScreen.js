@@ -1,11 +1,12 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import { Button, Input } from "@rneui/themed";
 
 import { StyleSheet, Text, View } from "react-native";
 
 function SignUpScreen({ navigation }) {
-  const [text, setText] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [fontsLoaded] = useFonts({
     "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
     "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -63,12 +64,12 @@ function SignUpScreen({ navigation }) {
         }}
       >
         <Input
-          onChangeText={(value) => setText(value)}
+          onChangeText={(value) => setEmail(value)}
           placeholder="Email"
           style={styles.emailField}
         />
         <Input
-          onChangeText={(value) => setText(value)}
+          onChangeText={(value) => setPassword(value)}
           placeholder="Password"
           style={styles.passwordField}
         />
