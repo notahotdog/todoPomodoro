@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useFonts } from "expo-font";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function UserProfileScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -28,6 +29,12 @@ function UserProfileScreen({ navigation }) {
       onLayout={onLayoutRootView}
     >
       <Text style={styles.titleText}>Alice </Text>
+      <MaterialCommunityIcons
+        name="face-woman-profile"
+        size={50}
+        style={{ paddingBottom: "10%" }}
+        color="black"
+      />
       <Text style={styles.paragraphText}>Profile </Text>
       <Text
         style={styles.paragraphText}
