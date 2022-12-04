@@ -1,17 +1,59 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { useFonts } from "expo-font";
 
 function UserProfileScreen({ navigation }) {
+  const [fontsLoaded] = useFonts({
+    "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
+    "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
+    "OpenSans-Light": require("../assets/fonts/OpenSans-Light.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Alice </Text>
-      <Text>Profile </Text>
-      <Text onPress={() => navigation.navigate("ChangeMode")}>Change Mode</Text>
-      <Text onPress={() => navigation.navigate("BlockNotification")}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+      }}
+      onLayout={onLayoutRootView}
+    >
+      <Text style={styles.titleText}>Alice </Text>
+      <Text style={styles.paragraphText}>Profile </Text>
+      <Text
+        style={styles.paragraphText}
+        // onPress={() => navigation.navigate("ChangeMode")}
+        onPress={() => navigation.navigate("Mode")}
+      >
+        Change Mode
+      </Text>
+      <Text
+        style={styles.paragraphText}
+        onPress={() => navigation.navigate("BlockNotification")}
+      >
         Block Notification
       </Text>
-      <Text onPress={() => navigation.navigate("Guide")}>Help</Text>
-      <Text>Sign Out</Text>
+      <Text
+        style={styles.paragraphText}
+        onPress={() => navigation.navigate("Guide")}
+      >
+        Help
+      </Text>
+      <Text
+        style={styles.paragraphText}
+        onPress={() => navigation.navigate("LogIn")}
+      >
+        Sign Out
+      </Text>
     </View>
   );
 }
@@ -29,5 +71,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "blue",
     marginTop: 50,
+  },
+  titleText: {
+    fontSize: 40,
+    paddingBottom: "5%",
+    fontFamily: "OpenSans-Bold",
+  },
+
+  paragraphText: {
+    width: "70%",
+    fontFamily: "OpenSans-Light",
+    fontSize: 20,
   },
 });
