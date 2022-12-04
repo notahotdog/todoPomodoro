@@ -64,22 +64,22 @@ function WorkScreen({ navigation }) {
   const taskList = [
     {
       uid: 0,
-      title: "Task 1",
-      description: "task 1 description",
+      title: "Do assignment 1",
+      description: "Complete assignment  1 by 2 pm",
       date: "01/11/12",
       completed: false,
     },
     {
       uid: 1,
-      title: "Task 2",
-      description: "task 2 description",
+      title: "Do assignment 2",
+      description: "Complete by thursday",
       date: "12/12/22",
       completed: false,
     },
     {
       uid: 2,
-      title: "Task 3",
-      description: "task 3 description",
+      title: "Do assignent 3",
+      description: "Complete asap description",
       date: "13/12/22",
       completed: false,
     },
@@ -101,6 +101,10 @@ function WorkScreen({ navigation }) {
 
   //Store in a list and clear previous data
   function addTask() {
+    if (addTaskTitle == "" || addTaskDescription == "" || addTaskDate == "") {
+      alert("Fields cannot be empty");
+      return;
+    }
     const newTask = {
       uid: uidCtr,
       title: addTaskTitle,

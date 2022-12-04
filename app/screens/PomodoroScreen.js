@@ -1,8 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { Dialog, LinearProgress } from "@rneui/themed";
+import { useFonts } from "expo-font";
 
 function PomodoroScreen({ route, navigation }) {
+  const [fontsLoaded] = useFonts({
+    "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
+    "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
+    "OpenSans-Light": require("../assets/fonts/OpenSans-Light.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+    }
+  }, [fontsLoaded]);
+
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
   const { uid, title, description, date, completed, timeInterval, shortBreak } =
     route.params;
 
@@ -73,15 +88,17 @@ function PomodoroScreen({ route, navigation }) {
   }, [time]);
 
   return (
-    <View style={styles.container}>
-      <Text>Pomodoro Screen</Text>
-      <LinearProgress
-        style={{ marginVertical: 10 }}
-        value={progressUpdate()}
-        color="primary"
-        variant="determinate"
-        width="70%"
-      />
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <Text style={styles.titleText}> {title}</Text>
+      <View style={styles.progressBar}>
+        <LinearProgress
+          style={{ marginVertical: 10 }}
+          value={progressUpdate()}
+          color="primary"
+          variant="determinate"
+          width="70%"
+        />
+      </View>
 
       {/* <Text>
         UID: {uid}, Title: {title}, Description: {description}, Date: {date},
@@ -89,10 +106,14 @@ function PomodoroScreen({ route, navigation }) {
       </Text> */}
       <Button title="Start Session" onPress={startSession} />
       <View>
-        <Text>Objective: {title}</Text>
-        <Text>Task Description: {description}</Text>
-        <Text>Interval: {timeInterval} mins</Text>
-        <Text>Total time left: {secondsToHms(timeLeft)} </Text>
+        <Text style={styles.paragraphText}>Objective: {title}</Text>
+        <Text style={styles.paragraphText}>
+          Task Description: {description}
+        </Text>
+        <Text style={styles.paragraphText}>Interval: {timeInterval} mins</Text>
+        <Text style={styles.paragraphText}>
+          Total time left: {secondsToHms(timeLeft)}{" "}
+        </Text>
       </View>
       <Button
         title="Session Completed"
@@ -132,5 +153,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "blue",
     marginTop: 50,
+  },
+  progressBar: {
+    width: "70%",
+    backgroundColor: "red,",
+  },
+  titleText: {
+    fontSize: 35,
+    fontFamily: "OpenSans-Bold",
+  },
+  paragraphText: {
+    width: "70%",
+    fontFamily: "OpenSans-Light",
+    fontSize: 18,
   },
 });
