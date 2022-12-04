@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "@rneui/themed";
 import { useFonts } from "expo-font";
-import { ScreenWidth } from "@rneui/base";
 
 function ModeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -51,8 +50,6 @@ function ModeScreen({ navigation }) {
 const styles = StyleSheet.create({
   parentView: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: "white",
   },
   titlePos: {
@@ -62,11 +59,8 @@ const styles = StyleSheet.create({
   },
   subtitlePos: {
     flex: 0.6,
-    // backgroundColor: "purple",
     alignItems: "center",
-    // padding: 10,
     justifyContent: "center",
-    // width: "70%",
   },
   buttonPos: {
     flex: 4,
@@ -89,7 +83,6 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    // backgroundColor: "red",
     position: "absolute",
     bottom: 0,
     marginTop: "auto",
@@ -99,7 +92,6 @@ const styles = StyleSheet.create({
   },
 
   paragraphText: {
-    // backgroundColor: "blue",
     width: "70%",
     fontFamily: "OpenSans-Light",
     fontSize: 20,
