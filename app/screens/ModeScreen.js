@@ -1,42 +1,108 @@
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  SafeAreaView,
-  Alert,
-} from "react-native";
+import React, { useCallback } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { Button } from "@rneui/themed";
+import { useFonts } from "expo-font";
+import { ScreenWidth } from "@rneui/base";
 
 function ModeScreen({ navigation }) {
+  const [fontsLoaded] = useFonts({
+    "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
+    "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
+    "OpenSans-Light": require("../assets/fonts/OpenSans-Light.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={styles.baseText}>Choose Mode </Text>
-      <Text style={styles.baseText}>
-        {" "}
-        You can change your current Mode in the settings later!
-      </Text>
-      <Button
-        title="Work "
-        color="secondary"
-        onPress={() => navigation.navigate("Work")}
-      />
-      <Button
-        title="Study "
-        color="primary"
-        onPress={() => navigation.navigate("Work")}
-      />
+    <View style={styles.parentView} onLayout={onLayoutRootView}>
+      <View style={styles.titlePos}>
+        <Text style={styles.titleText}>Choose Mode </Text>
+      </View>
+      <View style={styles.subtitlePos}>
+        <Text style={styles.paragraphText}>
+          You can change your current Mode in the settings later!
+        </Text>
+      </View>
+      <View style={styles.buttonPos}>
+        <View style={styles.workButton}>
+          <Button
+            title="Work "
+            color="secondary"
+            onPress={() => navigation.navigate("Work")}
+          />
+        </View>
+        <View style={styles.studyButton}>
+          <Button
+            title="Study "
+            color="primary"
+            onPress={() => navigation.navigate("Work")}
+          />
+        </View>
+      </View>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
-  baseText: {
-    fontWeight: "bold",
+  parentView: {
+    flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
+    backgroundColor: "white",
   },
-  innerText: {
-    color: "red",
+  titlePos: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+  },
+  subtitlePos: {
+    flex: 0.6,
+    // backgroundColor: "purple",
+    alignItems: "center",
+    // padding: 10,
+    justifyContent: "center",
+    // width: "70%",
+  },
+  buttonPos: {
+    flex: 4,
+    backgroundColor: "white",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    top: 0,
+  },
+  workButton: {
+    paddingTop: "20%",
+    backgroundColor: "white",
+    alignSelf: "center",
+    width: "60%",
+  },
+  studyButton: {
+    paddingTop: "10%",
+    width: "60%",
+    backgroundColor: "white",
+    alignSelf: "center",
+  },
+
+  titleText: {
+    // backgroundColor: "red",
+    position: "absolute",
+    bottom: 0,
+    marginTop: "auto",
+    fontSize: 35,
+    fontFamily: "OpenSans-Bold",
+    flex: 1,
+  },
+
+  paragraphText: {
+    // backgroundColor: "blue",
+    width: "70%",
+    fontFamily: "OpenSans-Light",
+    fontSize: 20,
   },
 });
 

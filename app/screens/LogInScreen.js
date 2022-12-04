@@ -4,8 +4,8 @@ import { Button, Input } from "@rneui/themed";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 
 function LoginScreen({ navigation }) {
-  const [email, setEmail] = React.useState("default email");
-  const [password, setPassword] = React.useState("default password");
+  const [email, setEmail] = useState("default email");
+  const [password, setPassword] = useState("default password");
   const [fontsLoaded] = useFonts({
     "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
     "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -37,7 +37,7 @@ function LoginScreen({ navigation }) {
       <View
         style={{
           width: "100%",
-          height: "15%%",
+          height: "15%",
           backgroundColor: BACKGROUND_COLOUR,
           // backgroundColor: "red",
           padding: 10,
