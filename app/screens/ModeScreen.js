@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "@rneui/themed";
 import { useFonts } from "expo-font";
-import { storeHighScore } from "../backend/firebase";
+import { storeHighScore, updateState } from "../backend/firebase";
 
 function ModeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -47,7 +47,8 @@ function ModeScreen({ navigation }) {
         <Button
           title="Send Data "
           color="secondary"
-          onPress={() => storeHighScore("samantha", "on")}
+          // onPress={() => storeHighScore("samantha", "on")}
+          onPress={() => updateState("task1", "1")}
         />
       </View>
     </View>

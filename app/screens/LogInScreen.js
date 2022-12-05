@@ -57,7 +57,7 @@ function LoginScreen({ navigation }) {
       <Button
         title="Log In "
         color="#b833ff"
-        style={{ borderRadius: 2, overflow: "hidden", paddingTop: "2%" }}
+        style={{ borderRadius: 2, overflow: "hidden", paddingTop: "12%" }}
         onPress={() => navigation.navigate("Mode")}
       />
       <View
