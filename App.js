@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import {
   StyleSheet,
   Text,
@@ -25,8 +26,20 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
+import { initializeApp } from "firebase/app";
+
 export default function App() {
   console.log("Starting App");
+  const firebaseConfig = {
+    apiKey: "AIzaSyBN7VYedVb6EhFC06Xybm5iDlnL6ctk7z4",
+    authDomain: "pomodoro-todolist-c7a8f.firebaseapp.com",
+    projectId: "pomodoro-todolist-c7a8f",
+    storageBucket: "pomodoro-todolist-c7a8f.appspot.com",
+    messagingSenderId: "742290901130",
+    appId: "1:742290901130:web:bc61317872f8e350a90573",
+  };
+
+  initializeApp(firebaseConfig);
 
   return (
     <NavigationContainer>
