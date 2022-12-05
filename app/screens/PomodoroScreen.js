@@ -37,15 +37,34 @@ function PomodoroScreen({ route, navigation }) {
   //Pomodoro Countdown
   const [timeLeft, setTimeLeft] = useState(0); // initialize timeLeft with the seconds prop
   useEffect(() => {
+    // console.log("check: timeleft", timeLeft);
+    if (timeLeft == 0 && assignmentStart) {
+      setBreakDialogVisible(true);
+    }
     if (!timeLeft) return; // exit when we reach 0
     const intervalId = setInterval(() => {
       setTimeLeft(timeLeft - 1); //save intervalId to clear the interval when component re-renders
-    }, 1000);
+    }, 100);
     return () => clearInterval(intervalId); //clear interval on rerender to avoid memory leaks
   }, [timeLeft]); //add timeLeft as a dependency to re-run the effect when we update
 
+  const [breakTimeLeft, setBreakTimeLeft] = useState(0);
+
+  useEffect(() => {
+    if (breakTimeLeft == 0 && assignmentStart) {
+      setBreakCompleted(true);
+      setBreakDialogVisible(false);
+    }
+    if (!breakTimeLeft) return; // exit when we reach 0
+    const breakIntervalId = setInterval(() => {
+      setBreakTimeLeft(breakTimeLeft - 1); //save intervalId to clear the interval when component re-renders
+    }, 1000);
+    return () => clearInterval(breakIntervalId); //clear interval on rerender to avoid memory leaks
+  }, [breakTimeLeft]); //add timeLeft as a dependency to re-run the effect when we update
+
   //Start Pomodoro session
   function startSession() {
+    setAssignmentStart(true);
     var timeLeft = parseInt(timeInterval) * 60; //Convert minutes to seconds
     setTimeLeft(timeLeft);
   }
@@ -58,34 +77,37 @@ function PomodoroScreen({ route, navigation }) {
 
   //Break
   const [breakDialogVisible, setBreakDialogVisible] = useState(false); //Break Dialog
-  // const [breakTimeLeft, setBreakTimeLeft] = useState(shortBreak);
 
   const toggleBreakDialog = () => {
     setBreakDialogVisible(!breakDialogVisible);
   };
 
-  //Break Logic
-  const [time, setTime] = useState(0);
-  const [referenceTime, setReferenceTime] = useState(Date.now());
-  const INTERVAL_IN_MILISECONDS = 100;
-
+  //a bit wonky this code
   function startShortBreakSession() {
-    const TIME_IN_MILISECONDS_TO_COUNTDOWN = 60 * shortBreak * 1000;
-    setTime(TIME_IN_MILISECONDS_TO_COUNTDOWN);
+    var breaktime = parseInt(shortBreak) * 60; //Convert minutes to seconds
+    setBreakTimeLeft(breaktime);
   }
-  useEffect(() => {
-    const countDownUntilZero = () => {
-      setTime((prevTime) => {
-        if (prevTime <= 0) return 0;
+  const [breakCompleted, setBreakCompleted] = useState(false);
+  const toggleBreakCompletedDialog = () => {
+    setBreakCompleted(!breakCompleted);
+  };
 
-        const now = Date.now();
-        const interval = now - referenceTime;
-        setReferenceTime(now);
-        return prevTime - interval;
-      });
-    };
-    setTimeout(countDownUntilZero, INTERVAL_IN_MILISECONDS);
-  }, [time]);
+  const [assignmentStart, setAssignmentStart] = useState(false); //checks if break has started
+
+  const showTimeLeftDisplayComponent = (
+    <Text style={styles.paragraphText}>
+      Total time left: {secondsToHms(timeLeft)}{" "}
+    </Text>
+  );
+
+  const hideTimeLeftDisplayComponent = (
+    <Text style={styles.paragraphText}>Time hidden</Text>
+  );
+
+  const [timeLeftDisplay, setTimeLeftDisplay] = useState(false);
+  const toggleTimeLeftDisplay = () => {
+    setTimeLeftDisplay(!timeLeftDisplay);
+  };
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
@@ -111,29 +133,40 @@ function PomodoroScreen({ route, navigation }) {
           Task Description: {description}
         </Text>
         <Text style={styles.paragraphText}>Interval: {timeInterval} mins</Text>
-        <Text style={styles.paragraphText}>
-          Total time left: {secondsToHms(timeLeft)}{" "}
-        </Text>
+        {timeLeftDisplay
+          ? showTimeLeftDisplayComponent
+          : hideTimeLeftDisplayComponent}
+        <Button title="Show Timing" onPress={toggleTimeLeftDisplay} />
       </View>
-      <Button
+      {/* <Button
         title="Session Completed"
         disabled={timeLeft != 0}
         onPress={toggleBreakDialog}
-      />
+      /> */}
 
       <Dialog
         isVisible={breakDialogVisible}
         onBackdropPress={toggleBreakDialog}
       >
         <Dialog.Title title="Have a Break" />
-        <Text>
-          Break Duration left: {secondsToHms((time / 1000).toFixed(0))}{" "}
+        <Text disabled>
+          Break Duration left:{" "}
+          {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "}
+          {breakTimeLeft}
         </Text>
 
         <Button title="Start Break Session" onPress={startShortBreakSession} />
         <Text>
           Its important to meditate sometimes and let you brain have a rest!
         </Text>
+      </Dialog>
+      <Dialog
+        isVisible={breakCompleted}
+        onBackdropPress={toggleBreakCompletedDialog}
+      >
+        <Dialog.Title title="Break Completed" />
+        <Text>Click Here to return to TaskList</Text>
+        <Button title="Return" onPress={() => navigation.navigate("Work")} />
       </Dialog>
     </View>
   );

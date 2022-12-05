@@ -55,7 +55,7 @@ function WorkScreen({ navigation }) {
   //Preset settings value at initialisation
   const settingsPreset = {
     ti: 1,
-    sb: 5,
+    sb: 1,
     lb: 20,
     ol: 2,
   };
@@ -101,7 +101,8 @@ function WorkScreen({ navigation }) {
 
   //Store in a list and clear previous data
   function addTask() {
-    if (addTaskTitle == "" || addTaskDescription == "" || addTaskDate == "") {
+    if (addTaskTitle == "" || addTaskDescription == "") {
+      // if (addTaskTitle == "" || addTaskDescription == "" || addTaskDate == "") {
       alert("Fields cannot be empty");
       return;
     }
@@ -263,11 +264,11 @@ function WorkScreen({ navigation }) {
             placeholder=" "
             onChangeText={(value) => setAddTaskDescription(value)}
           />
-          <Text>Date {addTaskDate}</Text>
+          {/* <Text>Date {addTaskDate}</Text>
           <Input
             placeholder=" "
             onChangeText={(value) => setAddTaskDate(value)}
-          />
+          /> */}
 
           <Dialog.Actions>
             <Dialog.Button title="Add Task" onPress={addTask} />
@@ -441,7 +442,7 @@ function WorkScreen({ navigation }) {
           <Dialog.Actions>
             <Dialog.Button
               title="Confirm Update"
-              onPress={() => console.log("Primary Action Clicked!")}
+              onPress={() => toggleSettingsDialog()}
             />
           </Dialog.Actions>
         </Dialog>
