@@ -56,7 +56,7 @@ function WorkScreen({ navigation }) {
   const settingsPreset = {
     ti: 1,
     sb: 1,
-    lb: 20,
+    lb: 1,
     ol: 2,
   };
 
@@ -65,7 +65,8 @@ function WorkScreen({ navigation }) {
     {
       uid: 0,
       title: "Do assignment 1",
-      description: "Complete assignment  1 by 2 pm",
+      // description: "Complete assignment  1 by 2 pm",
+      description: "123456789asdfghjklqwert",
       date: "01/11/12",
       completed: false,
     },
@@ -172,7 +173,7 @@ function WorkScreen({ navigation }) {
     navigation.navigate("Pomodoro", dataPassed);
   }
 
-  const [enableLongBreak, setEnableLongBreak] = useState(false);
+  const [enableLongBreak, setEnableLongBreak] = useState(false); //used to trigger longBreak pane
 
   //Triggers a new checkComplete with every re-render
   useEffect(() => {
@@ -197,6 +198,52 @@ function WorkScreen({ navigation }) {
     }
   }
 
+  function deleteCompleted() {
+    let newTodoList = [];
+    todoList.forEach((item, i) => {
+      if (item.completed == false) {
+        newTodoList = [...newTodoList, item];
+      }
+    });
+    setTodoList(newTodoList);
+  }
+
+  function startLongBreak() {
+    //Navigates through the checkcomplete and deletes item that are not in
+    toggleLongBreakDialog();
+    setBreakStarted(true);
+  }
+
+  const [longBreakDialogVisible, setLongBreakDialogVisible] = useState(false); //Break Dialog for longBreak
+  const toggleLongBreakDialog = () => {
+    setLongBreakDialogVisible(!longBreakDialogVisible);
+  };
+
+  const [breakTimeLeft, setBreakTimeLeft] = useState(longBreak);
+  const [breakCompleted, setBreakCompleted] = useState(false);
+  const toggleBreakCompletedDialog = () => {
+    deleteCompleted();
+    setBreakCompleted(!breakCompleted);
+  };
+
+  const [breakStarted, setBreakStarted] = useState(false);
+
+  useEffect(() => {
+    if (breakTimeLeft == 0 && breakStarted) {
+      setBreakCompleted(true);
+      setLongBreakDialogVisible(false);
+    }
+    if (!breakTimeLeft) return; // exit when we reach 0
+    const breakIntervalId = setInterval(() => {
+      setBreakTimeLeft(breakTimeLeft - 1); //save intervalId to clear the interval when component re-renders
+    }, 1000);
+    return () => clearInterval(breakIntervalId); //clear interval on rerender to avoid memory leaks
+  }, [breakTimeLeft]); //add timeLeft as a dependency to re-run the effect when we update
+  function startLongBreakSession() {
+    var breaktime = parseInt(longBreak) * 60; //Convert minutes to seconds
+    setBreakTimeLeft(breaktime);
+  }
+
   return (
     <View
       style={{
@@ -207,17 +254,49 @@ function WorkScreen({ navigation }) {
       }}
       onLayout={onLayoutRootView}
     >
-      <View style={styles.headerView}>
-        <AntDesign
-          name="user"
-          size={30}
-          color="black"
-          style={{ paddingTop: "5%" }}
-          onPress={() => navigation.navigate("UserProfile")}
+      <Dialog
+        isVisible={longBreakDialogVisible}
+        onBackdropPress={toggleLongBreakDialog}
+      >
+        <Dialog.Title title="Have a Break" />
+        <Text>
+          Break Duration left:{" "}
+          {/* {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "} */}
+          {breakTimeLeft}
+        </Text>
+
+        <Button title="Start Break Session" onPress={startLongBreakSession} />
+        <Text>
+          Its important to meditate sometimes and let you brain have a rest!
+        </Text>
+      </Dialog>
+      <Dialog
+        isVisible={breakCompleted}
+        onBackdropPress={toggleBreakCompletedDialog}
+      >
+        <Dialog.Title title="Long Break Completed" />
+        <Text>Hope you enjoyed your rest </Text>
+
+        <Button
+          // style={{ paddingTop: "50%" }}
+          title="Return"
+          onPress={() => toggleBreakCompletedDialog()}
         />
+      </Dialog>
+      <View style={styles.headerView}>
+        <View style={styles.antdIcon}>
+          <AntDesign
+            name="user"
+            size={30}
+            color="black"
+            style={{ paddingTop: "15%" }}
+            onPress={() => navigation.navigate("UserProfile")}
+          />
+        </View>
+
+        <Text style={styles.titleText}>My To-do List</Text>
       </View>
       <View style={styles.todoListView}>
-        <Text style={styles.titleText}>My To-do List</Text>
         <ScrollView style={{ width: "100%" }}>
           {todoList.map((item, i) => (
             <ListItem key={i} bottomDivider>
@@ -257,11 +336,13 @@ function WorkScreen({ navigation }) {
           <Text>Task Title: {addTaskTitle}</Text>
           <Input
             placeholder=" "
+            maxLength={19}
             onChangeText={(value) => setAddTaskTitle(value)}
           />
           <Text>Description: {addTaskDescription}</Text>
           <Input
             placeholder=" "
+            maxLength={22}
             onChangeText={(value) => setAddTaskDescription(value)}
           />
           {/* <Text>Date {addTaskDate}</Text>
@@ -312,6 +393,7 @@ function WorkScreen({ navigation }) {
             title="Start Long Break "
             color="primary"
             style={{ width: "60%", alignSelf: "center", paddingTop: "10%" }}
+            onPress={startLongBreak}
             // onPress={toggleAddTaskDialog}
           />
         </View>
@@ -460,6 +542,7 @@ const styles = StyleSheet.create({
     width: "90%",
     flex: 0.5,
     backgroundColor: "white",
+    flexDirection: "row",
   },
   todoListView: {
     width: "90%",
@@ -505,14 +588,19 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "OpenSans-Bold",
   },
+  antdIcon: {
+    flex: 0.3,
+    // backgroundColor: "yellow",
+  },
   titleText: {
-    bottom: 0,
+    // bottom: 0,
     // backgroundColor: "red",
     alignSelf: "center",
+    widt: "100%",
 
     fontSize: 25,
     fontFamily: "OpenSans-Bold",
-    flex: 0.3,
+    flex: 0.7,
   },
 
   paragraphText: {
