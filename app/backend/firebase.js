@@ -8,7 +8,7 @@ export function storeHighScore(userId, score) {
   });
 }
 
-export function updateState(userID, state) {
+export function updateFirebaseState(userID, state) {
   const db = getDatabase();
   const reference = ref(db, "users/" + userID);
   set(reference, {

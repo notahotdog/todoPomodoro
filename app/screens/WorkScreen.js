@@ -11,6 +11,8 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
+import { updateFirebaseState } from "../backend/firebase";
+import { convertToTimeFormat } from "../backend/Parser";
 
 function WorkScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -79,7 +81,7 @@ function WorkScreen({ navigation }) {
     },
     {
       uid: 2,
-      title: "Do assignent 3",
+      title: "Do assignment 3",
       description: "Complete asap description",
       date: "13/12/22",
       completed: false,
@@ -209,6 +211,8 @@ function WorkScreen({ navigation }) {
   }
 
   function startLongBreak() {
+    //Set firebase db here - 3
+    updateFirebaseState("task1", "3");
     //Navigates through the checkcomplete and deletes item that are not in
     toggleLongBreakDialog();
     setBreakStarted(true);
@@ -259,16 +263,20 @@ function WorkScreen({ navigation }) {
         onBackdropPress={toggleLongBreakDialog}
       >
         <Dialog.Title title="Have a Break" />
-        <Text>
-          Break Duration left:{" "}
-          {/* {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "} */}
-          {breakTimeLeft}
-        </Text>
+        <View style={{ paddingBottom: "5%", backgroundColor: "white" }}>
+          <Text>
+            Break Duration left:{" "}
+            {/* {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "} */}
+            {convertToTimeFormat(breakTimeLeft)}
+          </Text>
+        </View>
 
         <Button title="Start Break Session" onPress={startLongBreakSession} />
-        <Text>
-          Its important to meditate sometimes and let you brain have a rest!
-        </Text>
+        <View style={{ paddingTop: "5%", backgroundColor: "white" }}>
+          <Text>
+            Its important to meditate sometimes and let you brain have a rest!
+          </Text>
+        </View>
       </Dialog>
       <Dialog
         isVisible={breakCompleted}
@@ -373,7 +381,7 @@ function WorkScreen({ navigation }) {
         </View>
         <View style={styles.pomodoroBody}>
           <Text style={styles.paragraphText}>
-            Time Interval : {timeInterval} : 00 mins
+            Session Interval : {timeInterval} : 00 mins
           </Text>
           <Text style={styles.paragraphText}>
             Short Break Duration : {shortBreak} mins
@@ -386,16 +394,22 @@ function WorkScreen({ navigation }) {
             Pomodoro Completed {noTaskCompleted} / {oneLoop}
           </Text>
 
-          {/* <Text style={styles.paragraphText}>
-            Enable long break: {String(enableLongBreak)}
-          </Text> */}
-          <Button
-            title="Start Long Break "
-            color="primary"
-            style={{ width: "60%", alignSelf: "center", paddingTop: "10%" }}
-            onPress={startLongBreak}
-            // onPress={toggleAddTaskDialog}
-          />
+          {enableLongBreak ? (
+            <Button
+              title="Start Long Break "
+              color="primary"
+              style={{ width: "60%", alignSelf: "center", paddingTop: "10%" }}
+              onPress={startLongBreak}
+            />
+          ) : (
+            <Button
+              title="Long Break Disabled"
+              color="warning"
+              type="outline"
+              style={{ width: "60%", alignSelf: "center", paddingTop: "10%" }}
+              onPress={() => alert("Please complete some task")}
+            />
+          )}
         </View>
 
         <Dialog
@@ -403,7 +417,7 @@ function WorkScreen({ navigation }) {
           onBackdropPress={toggleSettingsDialog}
         >
           <Dialog.Title title="Pomodoro Setting " />
-          <Text> Time Interval: {timeInterval} mins</Text>
+          <Text> Session Interval: {timeInterval} mins</Text>
 
           <View>
             <Slider

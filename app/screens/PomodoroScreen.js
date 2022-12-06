@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { Dialog, LinearProgress } from "@rneui/themed";
 import { useFonts } from "expo-font";
+import { storeHighScore, updateFirebaseState } from "../backend/firebase";
+import { convertToTimeFormat } from "../backend/Parser";
 
 function PomodoroScreen({ route, navigation }) {
   const [fontsLoaded] = useFonts({
@@ -64,6 +66,8 @@ function PomodoroScreen({ route, navigation }) {
 
   //Start Pomodoro session
   function startSession() {
+    //Trigger db update here
+    updateFirebaseState("task1", "1");
     setAssignmentStart(true);
     var timeLeft = parseInt(timeInterval) * 60; //Convert minutes to seconds
     setTimeLeft(timeLeft);
@@ -84,6 +88,8 @@ function PomodoroScreen({ route, navigation }) {
 
   //a bit wonky this code
   function startShortBreakSession() {
+    //Update firebase here -2
+    updateFirebaseState("task1", "2");
     var breaktime = parseInt(shortBreak) * 60; //Convert minutes to seconds
     setBreakTimeLeft(breaktime);
   }
@@ -96,12 +102,15 @@ function PomodoroScreen({ route, navigation }) {
 
   const showTimeLeftDisplayComponent = (
     <Text style={styles.paragraphText}>
-      Total time left: {secondsToHms(timeLeft)}{" "}
+      {/* Total time left: {secondsToHms(timeLeft)}{" "} */}
+      Total time left: {convertToTimeFormat(timeLeft)}{" "}
     </Text>
   );
 
   const hideTimeLeftDisplayComponent = (
-    <Text style={styles.paragraphText}>Time hidden</Text>
+    <Text style={styles.paragraphPromptText}>
+      Click below to see remaining time{" "}
+    </Text>
   );
 
   const [timeLeftDisplay, setTimeLeftDisplay] = useState(false);
@@ -132,7 +141,9 @@ function PomodoroScreen({ route, navigation }) {
         <Text style={styles.paragraphText}>
           Task Description: {description}
         </Text>
-        <Text style={styles.paragraphText}>Interval: {timeInterval} mins</Text>
+        <Text style={styles.paragraphText}>
+          Session Interval: {timeInterval} mins
+        </Text>
         {timeLeftDisplay
           ? showTimeLeftDisplayComponent
           : hideTimeLeftDisplayComponent}
@@ -149,11 +160,11 @@ function PomodoroScreen({ route, navigation }) {
         onBackdropPress={toggleBreakDialog}
       >
         <Dialog.Title title="Have a Break" />
-        <Text disabled>
-          Break Duration left:{" "}
-          {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "}
-          {breakTimeLeft}
-        </Text>
+        <View>
+          <Text style={{ paddingBottom: "5%" }}>
+            Break Duration Left: {convertToTimeFormat(breakTimeLeft)}
+          </Text>
+        </View>
 
         <Button title="Start Break Session" onPress={startShortBreakSession} />
         <Text>
@@ -199,5 +210,12 @@ const styles = StyleSheet.create({
     width: "70%",
     fontFamily: "OpenSans-Light",
     fontSize: 18,
+  },
+  paragraphPromptText: {
+    width: "70%",
+    fontFamily: "OpenSans-Medium",
+    fontSize: 18,
+    // fontStyle: "bold",
+    color: "#be2596",
   },
 });
