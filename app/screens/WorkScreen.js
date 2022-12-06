@@ -391,7 +391,7 @@ function WorkScreen({ navigation }) {
           </Text>
 
           <Text style={styles.paragraphText}>
-            Pomodoro Completed {noTaskCompleted} / {oneLoop}
+            Pomodoro Completed: {noTaskCompleted} / {oneLoop}
           </Text>
 
           {enableLongBreak ? (

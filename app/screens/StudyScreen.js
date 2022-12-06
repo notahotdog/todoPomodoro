@@ -172,7 +172,7 @@ function StudyScreen({ navigation }) {
   //Navigate to the the Pomodoro Page TODO- Refactor to just include the uid
   function navigateToTaskPomodoro(item) {
     const dataPassed = { ...item, timeInterval, shortBreak, longBreak };
-    navigation.navigate("Pomodoro", dataPassed);
+    navigation.navigate("StudyPomodoro", dataPassed);
   }
 
   const [enableLongBreak, setEnableLongBreak] = useState(false); //used to trigger longBreak pane
@@ -391,7 +391,7 @@ function StudyScreen({ navigation }) {
           </Text>
 
           <Text style={styles.paragraphText}>
-            Pomodoro Completed {noTaskCompleted} / {oneLoop}
+            Pomodoro Completed: {noTaskCompleted} / {oneLoop}
           </Text>
 
           {enableLongBreak ? (

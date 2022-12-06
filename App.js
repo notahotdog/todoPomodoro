@@ -21,6 +21,8 @@ import UserProfileScreen from "./app/screens/UserProfileScreen";
 import PomodoroScreen from "./app/screens/PomodoroScreen";
 import ChangeModeScreen from "./app/screens/ChangeModeScreen";
 import BlockNotificationScreen from "./app/screens/BlockNotificationScreen";
+import StudyPomodoroScreen from "./app/screens/StudyPomodoroScreen";
+import StudyScreen from "./app/screens/StudyScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -68,6 +70,8 @@ export default function App() {
           name="BlockNotification"
           component={BlockNotificationScreen}
         />
+        <Stack.Screen name="StudyPomodoro" component={StudyPomodoroScreen} />
+        <Stack.Screen name="Study" component={StudyScreen} />
         {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>

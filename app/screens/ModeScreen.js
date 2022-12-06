@@ -41,7 +41,7 @@ function ModeScreen({ navigation }) {
           <Button
             title="Study "
             color="primary"
-            onPress={() => navigation.navigate("Work")}
+            onPress={() => navigation.navigate("Study")}
           />
         </View>
       </View>

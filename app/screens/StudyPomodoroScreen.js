@@ -5,7 +5,7 @@ import { useFonts } from "expo-font";
 import { storeHighScore, updateFirebaseState } from "../backend/firebase";
 import { convertToTimeFormat } from "../backend/Parser";
 
-function PomodoroScreen({ route, navigation }) {
+function StudyPomodoroScreen({ route, navigation }) {
   const [fontsLoaded] = useFonts({
     "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
     "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -177,13 +177,13 @@ function PomodoroScreen({ route, navigation }) {
       >
         <Dialog.Title title="Break Completed" />
         <Text>Click Here to return to TaskList</Text>
-        <Button title="Return" onPress={() => navigation.navigate("Work")} />
+        <Button title="Return" onPress={() => navigation.navigate("Study")} />
       </Dialog>
     </View>
   );
 }
 
-export default PomodoroScreen;
+export default StudyPomodoroScreen;
 
 const styles = StyleSheet.create({
   container: {

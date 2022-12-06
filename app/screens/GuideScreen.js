@@ -39,6 +39,22 @@ function GuideScreen({ navigation }) {
       <View style={styles.titlePos}>
         <Text style={styles.titleText}>Guide Screen</Text>
       </View>
+      <View style={styles.paragraphPos}>
+        <Text style={styles.paragraphText}>
+          1. Select between study and work mode
+        </Text>
+        <Text></Text>
+        <Text style={styles.paragraphText}>
+          2. Add a task to your task list, configure your pomodoro settings or
+          select the task you wish to attempt
+        </Text>
+        <Text></Text>
+        <Text style={styles.paragraphText}>
+          3. Start the task and take a break once your study/work session is
+          over
+        </Text>
+        <Text></Text>
+      </View>
       <View style={styles.subtitlePos}>
         <Button title="Next " onPress={() => navigation.navigate("Mode")} />
       </View>
@@ -56,10 +72,16 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     alignItems: "center",
   },
-  subtitlePos: {
+  paragraphPos: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    width: "80%",
+    // backgroundColor: "purple",
+  },
+  subtitlePos: {
+    flex: 0.4,
+    alignItems: "center",
+    justifyContent: "flex-start",
     // backgroundColor: "blue",
     width: "70%",
   },
@@ -93,7 +115,7 @@ const styles = StyleSheet.create({
   },
 
   paragraphText: {
-    width: "70%",
+    width: "100%",
     fontFamily: "OpenSans-Light",
     fontSize: 20,
   },
