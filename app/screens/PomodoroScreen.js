@@ -103,7 +103,7 @@ function PomodoroScreen({ route, navigation }) {
   const showTimeLeftDisplayComponent = (
     <Text style={styles.paragraphText}>
       {/* Total time left: {secondsToHms(timeLeft)}{" "} */}
-      Total time left: {convertToTimeFormat(timeLeft)}{" "}
+      Total time left: {convertToTimeFormat(timeLeft)} mins{" "}
     </Text>
   );
 
@@ -123,7 +123,7 @@ function PomodoroScreen({ route, navigation }) {
       <Text style={styles.titleText}> {title}</Text>
       <View style={styles.progressBar}>
         <LinearProgress
-          style={{ marginVertical: 10 }}
+          style={{ marginVertical: 10, height: "7%" }}
           value={progressUpdate()}
           color="primary"
           variant="determinate"
@@ -142,7 +142,7 @@ function PomodoroScreen({ route, navigation }) {
           Task Description: {description}
         </Text>
         <Text style={styles.paragraphText}>
-          Session Interval: {timeInterval} mins
+          Session Interval: {convertToTimeFormat(timeInterval * 60)} mins
         </Text>
         {timeLeftDisplay
           ? showTimeLeftDisplayComponent
@@ -162,13 +162,13 @@ function PomodoroScreen({ route, navigation }) {
         <Dialog.Title title="Have a Break" />
         <View>
           <Text style={{ paddingBottom: "5%" }}>
-            Break Duration Left: {convertToTimeFormat(breakTimeLeft)}
+            Break Duration Left: {convertToTimeFormat(breakTimeLeft)} mins
           </Text>
         </View>
 
         <Button title="Start Break Session" onPress={startShortBreakSession} />
         <Text>
-          Its important to meditate sometimes and let you brain have a rest!
+          Its important to meditate sometimes and let your brain have a rest!
         </Text>
       </Dialog>
       <Dialog
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   progressBar: {
+    paddingTop: "5%",
     width: "70%",
     backgroundColor: "red,",
   },

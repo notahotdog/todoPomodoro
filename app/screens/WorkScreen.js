@@ -172,7 +172,7 @@ function WorkScreen({ navigation }) {
   //Navigate to the the Pomodoro Page TODO- Refactor to just include the uid
   function navigateToTaskPomodoro(item) {
     const dataPassed = { ...item, timeInterval, shortBreak, longBreak };
-    navigation.navigate("Pomodoro", dataPassed);
+    navigation.navigate("WorkPomodoro", dataPassed);
   }
 
   const [enableLongBreak, setEnableLongBreak] = useState(false); //used to trigger longBreak pane
@@ -267,14 +267,14 @@ function WorkScreen({ navigation }) {
           <Text>
             Break Duration left:{" "}
             {/* {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "} */}
-            {convertToTimeFormat(breakTimeLeft)}
+            {convertToTimeFormat(breakTimeLeft)} mins
           </Text>
         </View>
 
         <Button title="Start Break Session" onPress={startLongBreakSession} />
         <View style={{ paddingTop: "5%", backgroundColor: "white" }}>
           <Text>
-            Its important to meditate sometimes and let you brain have a rest!
+            Its important to meditate sometimes and let your brain have a rest!
           </Text>
         </View>
       </Dialog>
@@ -340,7 +340,7 @@ function WorkScreen({ navigation }) {
           isVisible={taskAddVisible}
           onBackdropPress={toggleAddTaskDialog}
         >
-          <Dialog.Title title="Pomodoro Setting " />
+          <Dialog.Title title="Add Pomodoro Task" />
           <Text>Task Title: {addTaskTitle}</Text>
           <Input
             placeholder=" "
@@ -381,13 +381,13 @@ function WorkScreen({ navigation }) {
         </View>
         <View style={styles.pomodoroBody}>
           <Text style={styles.paragraphText}>
-            Session Interval : {timeInterval} : 00 mins
+            Session Interval : {convertToTimeFormat(timeInterval * 60)} mins
           </Text>
           <Text style={styles.paragraphText}>
-            Short Break Duration : {shortBreak} mins
+            Short Break Duration : {convertToTimeFormat(shortBreak * 60)} mins
           </Text>
           <Text style={styles.paragraphText}>
-            Long Break Duration : {longBreak} mins
+            Long Break Duration : {convertToTimeFormat(longBreak * 60)} mins
           </Text>
 
           <Text style={styles.paragraphText}>
@@ -438,9 +438,9 @@ function WorkScreen({ navigation }) {
                   <Icon
                     name="clock-o"
                     type="font-awesome"
-                    size={20}
+                    size={15}
                     reverse
-                    containerStyle={{ bottom: 20, right: 20 }}
+                    containerStyle={{ bottom: 15, right: 20 }}
                     color={"red"}
                   />
                 ),
@@ -468,9 +468,9 @@ function WorkScreen({ navigation }) {
                   <Icon
                     name="clock-o"
                     type="font-awesome"
-                    size={20}
+                    size={15}
                     reverse
-                    containerStyle={{ bottom: 20, right: 20 }}
+                    containerStyle={{ bottom: 15, right: 20 }}
                     color={"red"}
                   />
                 ),
@@ -497,9 +497,9 @@ function WorkScreen({ navigation }) {
                   <Icon
                     name="clock-o"
                     type="font-awesome"
-                    size={20}
+                    size={15}
                     reverse
-                    containerStyle={{ bottom: 20, right: 20 }}
+                    containerStyle={{ bottom: 15, right: 20 }}
                     color={"red"}
                   />
                 ),
@@ -526,9 +526,9 @@ function WorkScreen({ navigation }) {
                   <Icon
                     name="clock-o"
                     type="font-awesome"
-                    size={20}
+                    size={15}
                     reverse
-                    containerStyle={{ bottom: 20, right: 20 }}
+                    containerStyle={{ bottom: 15, right: 20 }}
                     color={"red"}
                   />
                 ),
@@ -620,6 +620,6 @@ const styles = StyleSheet.create({
   paragraphText: {
     width: "80%",
     fontFamily: "OpenSans-Light",
-    fontSize: 20,
+    fontSize: 19,
   },
 });
