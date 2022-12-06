@@ -14,7 +14,7 @@ import { useFonts } from "expo-font";
 import { updateFirebaseState } from "../backend/firebase";
 import { convertToTimeFormat } from "../backend/Parser";
 
-function WorkScreen({ navigation }) {
+function StudyScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
     "OpenSans-Bold": require("../assets/fonts/OpenSans-Bold.ttf"),
     "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -546,7 +546,7 @@ function WorkScreen({ navigation }) {
     </View>
   );
 }
-export default WorkScreen;
+export default StudyScreen;
 const styles = StyleSheet.create({
   parentView: {
     flex: 1,

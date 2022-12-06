@@ -30,13 +30,22 @@ import { initializeApp } from "firebase/app";
 
 export default function App() {
   console.log("Starting App");
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyBN7VYedVb6EhFC06Xybm5iDlnL6ctk7z4",
+  //   authDomain: "pomodoro-todolist-c7a8f.firebaseapp.com",
+  //   projectId: "pomodoro-todolist-c7a8f",
+  //   storageBucket: "pomodoro-todolist-c7a8f.appspot.com",
+  //   messagingSenderId: "742290901130",
+  //   appId: "1:742290901130:web:bc61317872f8e350a90573",
+  // };
   const firebaseConfig = {
-    apiKey: "AIzaSyBN7VYedVb6EhFC06Xybm5iDlnL6ctk7z4",
-    authDomain: "pomodoro-todolist-c7a8f.firebaseapp.com",
-    projectId: "pomodoro-todolist-c7a8f",
-    storageBucket: "pomodoro-todolist-c7a8f.appspot.com",
-    messagingSenderId: "742290901130",
-    appId: "1:742290901130:web:bc61317872f8e350a90573",
+    apiKey: "AIzaSyAbynSMfjLUpjqKluFjYM0gesE7dkyKxwo",
+    authDomain: "pomodoroapp-ac830.firebaseapp.com",
+    databaseURL: "https://pomodoroapp-ac830-default-rtdb.firebaseio.com",
+    projectId: "pomodoroapp-ac830",
+    storageBucket: "pomodoroapp-ac830.appspot.com",
+    messagingSenderId: "230467809032",
+    appId: "1:230467809032:web:002be393e1e3e977e506bd",
   };
 
   initializeApp(firebaseConfig);
