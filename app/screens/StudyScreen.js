@@ -240,7 +240,7 @@ function StudyScreen({ navigation }) {
     if (!breakTimeLeft) return; // exit when we reach 0
     const breakIntervalId = setInterval(() => {
       setBreakTimeLeft(breakTimeLeft - 1); //save intervalId to clear the interval when component re-renders
-    }, 1000); //CHANGE HERE - to speed up/slow down actual break countdown
+    }, 300); //CHANGE HERE - to speed up/slow down actual break countdown
     return () => clearInterval(breakIntervalId); //clear interval on rerender to avoid memory leaks
   }, [breakTimeLeft]); //add timeLeft as a dependency to re-run the effect when we update
   function startLongBreakSession() {
@@ -283,7 +283,7 @@ function StudyScreen({ navigation }) {
         onBackdropPress={toggleBreakCompletedDialog}
       >
         <Dialog.Title title="Long Break Completed" />
-        <Text>Hope you enjoyed your rest </Text>
+        <Text>Hope you enjoyed your rest !</Text>
 
         <Button
           // style={{ paddingTop: "50%" }}
