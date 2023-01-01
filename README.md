@@ -21,6 +21,8 @@ TodoList Pomodoro App uses a number of open source projects to work properly:
 
 ## Installation
 
+Install expo on your phone and ensure that both your computer and phone are connected to the same network.
+
 Install the dependencies and devDependencies and start the server.
 ![image](https://user-images.githubusercontent.com/40038371/210179008-cdb22b0e-5297-4192-89f4-af8527edf591.png)
 
@@ -28,3 +30,4 @@ Install the dependencies and devDependencies and start the server.
 2. Set **Firebase Realtime Database secret** valuess in the .env file prior to running the npm start command
 ![Screenshot 2023-01-02 at 1 09 08 AM](https://user-images.githubusercontent.com/40038371/210179163-a047efbb-d67f-4f46-bc7e-06ed75e797ce.png)
 
+Once the server has been started, scan the qr code using your camera app(iphone) or through the expo app(android)
