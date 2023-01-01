@@ -38,17 +38,10 @@ function UserProfileScreen({ navigation }) {
       <Text style={styles.paragraphText}>Profile </Text>
       <Text
         style={styles.paragraphText}
-        // onPress={() => navigation.navigate("ChangeMode")}
         onPress={() => navigation.navigate("Mode")}
       >
         Change Mode
       </Text>
-      {/* <Text
-        style={styles.paragraphText}
-        onPress={() => navigation.navigate("BlockNotification")}
-      >
-        Block Notification
-      </Text> */}
       <Text
         style={styles.paragraphText}
         onPress={() => navigation.navigate("Guide")}

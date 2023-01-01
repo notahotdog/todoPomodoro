@@ -2,11 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { Button, Card, Input } from "@rneui/themed";
-import HomeScreen from "./HomeScreen";
 
 const MessageScreen = () => {
-  //Maintains the state to be sent
-
   const [childData, setChildData] = useState("");
 
   const navigation = useNavigation();

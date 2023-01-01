@@ -26,10 +26,6 @@ function StudyScreen({ navigation }) {
     }
   }, [fontsLoaded]);
 
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
   //Pomodoro Setting Dialog
   const [settingsVisible, setSettingsVisible] = useState(false);
   const toggleSettingsDialog = () => {
@@ -67,7 +63,6 @@ function StudyScreen({ navigation }) {
     {
       uid: 0,
       title: "Do assignment 1",
-      // description: "Complete assignment  1 by 2 pm",
       description: "Complete before dinner",
       date: "01/11/12",
       completed: false,
@@ -105,7 +100,6 @@ function StudyScreen({ navigation }) {
   //Store in a list and clear previous data
   function addTask() {
     if (addTaskTitle == "" || addTaskDescription == "") {
-      // if (addTaskTitle == "" || addTaskDescription == "" || addTaskDate == "") {
       alert("Fields cannot be empty");
       return;
     }
@@ -169,7 +163,7 @@ function StudyScreen({ navigation }) {
     setTodoList(updatedTodoList);
   }
 
-  //Navigate to the the Pomodoro Page TODO- Refactor to just include the uid
+  //Navigate to the the Pomodoro Page
   function navigateToTaskPomodoro(item) {
     const dataPassed = { ...item, timeInterval, shortBreak, longBreak };
     navigation.navigate("StudyPomodoro", dataPassed);
@@ -211,9 +205,9 @@ function StudyScreen({ navigation }) {
   }
 
   function startLongBreak() {
-    //Set firebase db here - 3
+    //Update firebase state here - 3 - indicates longBreak
     updateFirebaseState("task1", "3");
-    //Navigates through the checkcomplete and deletes item that are not in
+    //Navigates through the checkcomplete and deletes item that are not within
     toggleLongBreakDialog();
     setBreakStarted(true);
   }
@@ -265,9 +259,7 @@ function StudyScreen({ navigation }) {
         <Dialog.Title title="Have a Break" />
         <View style={{ paddingBottom: "5%", backgroundColor: "white" }}>
           <Text>
-            Break Duration left:{" "}
-            {/* {secondsToHms((parseInt(breakTimeLeft) / 1000).toFixed(0))}{" "} */}
-            {convertToTimeFormat(breakTimeLeft)} mins
+            Break Duration left: {convertToTimeFormat(breakTimeLeft)} mins
           </Text>
         </View>
 
@@ -285,11 +277,7 @@ function StudyScreen({ navigation }) {
         <Dialog.Title title="Long Break Completed" />
         <Text>Hope you enjoyed your rest !</Text>
 
-        <Button
-          // style={{ paddingTop: "50%" }}
-          title="Return"
-          onPress={() => toggleBreakCompletedDialog()}
-        />
+        <Button title="Return" onPress={() => toggleBreakCompletedDialog()} />
       </Dialog>
       <View style={styles.headerView}>
         <View style={styles.antdIcon}>
@@ -353,12 +341,6 @@ function StudyScreen({ navigation }) {
             maxLength={22}
             onChangeText={(value) => setAddTaskDescription(value)}
           />
-          {/* <Text>Date {addTaskDate}</Text>
-          <Input
-            placeholder=" "
-            onChangeText={(value) => setAddTaskDate(value)}
-          /> */}
-
           <Dialog.Actions>
             <Dialog.Button title="Add Task" onPress={addTask} />
           </Dialog.Actions>
@@ -565,35 +547,29 @@ const styles = StyleSheet.create({
   myPodoroTimerView: {
     width: "90%",
     flex: 2,
-    // backgroundColor: "yellow",
     paddingTop: "5%",
   },
 
   buttonPos: {
     width: "60%",
-    // backgroundColor: "red",
     alignSelf: "center",
     paddingBottom: "5%",
   },
   pomodoroHeader: {
     flex: 1,
     flexDirection: "row",
-    // backgroundColor: "red",
   },
 
   pomodoroHeaderSettings: {
-    // backgroundColor: "red",
     flex: 1,
   },
   pomodoroHeaderTitle: {
     paddingRight: "10%",
-    // backgroundColor: "purple",
     flex: 7,
   },
 
   pomodoroBody: {
     flex: 4,
-    // backgroundColor: "blue",
   },
   pomodoroHeaderTitleText: {
     // backgroundColor: "",
@@ -603,11 +579,8 @@ const styles = StyleSheet.create({
   },
   antdIcon: {
     flex: 0.3,
-    // backgroundColor: "yellow",
   },
   titleText: {
-    // bottom: 0,
-    // backgroundColor: "red",
     alignSelf: "center",
     widt: "100%",
 

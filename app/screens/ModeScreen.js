@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "@rneui/themed";
 import { useFonts } from "expo-font";
-import { storeHighScore, updateFirebaseState } from "../backend/firebase";
 
 function ModeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({

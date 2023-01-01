@@ -4,9 +4,7 @@ import { Switch } from "@rneui/themed";
 
 function ChangeMode({ navigation }) {
   const [checked, setChecked] = useState(false);
-  const toggleSwitch = () => {
-    setChecked(!checked);
-  };
+
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Change Mode Screen</Text>

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  SafeAreaView,
-  Alert,
-  Button,
-} from "react-native";
+import { Text, View } from "react-native";
 
 function SetPomodoroScreen({ navigation }) {
   return (

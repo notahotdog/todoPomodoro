@@ -26,10 +26,6 @@ function WorkScreen({ navigation }) {
     }
   }, [fontsLoaded]);
 
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
   //Pomodoro Setting Dialog
   const [settingsVisible, setSettingsVisible] = useState(false);
   const toggleSettingsDialog = () => {
@@ -105,7 +101,6 @@ function WorkScreen({ navigation }) {
   //Store in a list and clear previous data
   function addTask() {
     if (addTaskTitle == "" || addTaskDescription == "") {
-      // if (addTaskTitle == "" || addTaskDescription == "" || addTaskDate == "") {
       alert("Fields cannot be empty");
       return;
     }
@@ -211,7 +206,7 @@ function WorkScreen({ navigation }) {
   }
 
   function startLongBreak() {
-    //Set firebase db here - 3
+    //Update firebase state here - 3 - indicates longBreak
     updateFirebaseState("task1", "3");
     //Navigates through the checkcomplete and deletes item that are not in
     toggleLongBreakDialog();
@@ -285,11 +280,7 @@ function WorkScreen({ navigation }) {
         <Dialog.Title title="Long Break Completed" />
         <Text>Hope you enjoyed your rest! </Text>
 
-        <Button
-          // style={{ paddingTop: "50%" }}
-          title="Return"
-          onPress={() => toggleBreakCompletedDialog()}
-        />
+        <Button title="Return" onPress={() => toggleBreakCompletedDialog()} />
       </Dialog>
       <View style={styles.headerView}>
         <View style={styles.antdIcon}>
@@ -353,12 +344,6 @@ function WorkScreen({ navigation }) {
             maxLength={22}
             onChangeText={(value) => setAddTaskDescription(value)}
           />
-          {/* <Text>Date {addTaskDate}</Text>
-          <Input
-            placeholder=" "
-            onChangeText={(value) => setAddTaskDate(value)}
-          /> */}
-
           <Dialog.Actions>
             <Dialog.Button title="Add Task" onPress={addTask} />
           </Dialog.Actions>
@@ -566,51 +551,41 @@ const styles = StyleSheet.create({
   myPodoroTimerView: {
     width: "90%",
     flex: 2,
-    // backgroundColor: "yellow",
     paddingTop: "5%",
   },
 
   buttonPos: {
     width: "60%",
-    // backgroundColor: "red",
     alignSelf: "center",
     paddingBottom: "5%",
   },
   pomodoroHeader: {
     flex: 1,
     flexDirection: "row",
-    // backgroundColor: "red",
   },
 
   pomodoroHeaderSettings: {
-    // backgroundColor: "red",
     flex: 1,
   },
   pomodoroHeaderTitle: {
     paddingRight: "10%",
-    // backgroundColor: "purple",
     flex: 7,
   },
 
   pomodoroBody: {
     flex: 4,
-    // backgroundColor: "blue",
   },
   pomodoroHeaderTitleText: {
-    // backgroundColor: "",
     alignSelf: "center",
     fontSize: 25,
     fontFamily: "OpenSans-Bold",
   },
   antdIcon: {
     flex: 0.3,
-    // backgroundColor: "yellow",
   },
   titleText: {
-    // bottom: 0,
-    // backgroundColor: "red",
     alignSelf: "center",
-    widt: "100%",
+    width: "100%",
 
     fontSize: 25,
     fontFamily: "OpenSans-Bold",

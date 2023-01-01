@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import { Button, Input } from "@rneui/themed";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("default email");
@@ -39,7 +39,6 @@ function LoginScreen({ navigation }) {
           width: "100%",
           height: "15%",
           backgroundColor: BACKGROUND_COLOUR,
-          // backgroundColor: "red",
           padding: 10,
         }}
       >

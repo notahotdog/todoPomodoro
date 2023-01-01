@@ -1,14 +1,6 @@
 import React, { useCallback } from "react";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  SafeAreaView,
-  Alert,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { useFonts } from "expo-font";
 
 function GuideScreen({ navigation }) {
@@ -76,13 +68,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     width: "80%",
-    // backgroundColor: "purple",
   },
   subtitlePos: {
     flex: 0.4,
     alignItems: "center",
     justifyContent: "flex-start",
-    // backgroundColor: "blue",
     width: "70%",
   },
   buttonPos: {

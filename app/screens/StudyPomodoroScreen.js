@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { Dialog, LinearProgress } from "@rneui/themed";
 import { useFonts } from "expo-font";
 import { storeHighScore, updateFirebaseState } from "../backend/firebase";
@@ -17,29 +17,12 @@ function StudyPomodoroScreen({ route, navigation }) {
     }
   }, [fontsLoaded]);
 
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
   const { uid, title, description, date, completed, timeInterval, shortBreak } =
     route.params;
-
-  //Converts seconds to - hour-minutes-seconds
-  function secondsToHms(d) {
-    d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor((d % 3600) / 60);
-    var s = Math.floor((d % 3600) % 60);
-
-    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-    return hDisplay + mDisplay + sDisplay;
-  }
 
   //Pomodoro Countdown
   const [timeLeft, setTimeLeft] = useState(0); // initialize timeLeft with the seconds prop
   useEffect(() => {
-    // console.log("check: timeleft", timeLeft);
     if (timeLeft == 0 && assignmentStart) {
       setBreakDialogVisible(true);
     }
@@ -66,7 +49,7 @@ function StudyPomodoroScreen({ route, navigation }) {
 
   //Start Pomodoro session
   function startSession() {
-    //Trigger db update here
+    //Update firebase state here - 1 - indicates pomodoroSessionRunning
     updateFirebaseState("task1", "1");
     setAssignmentStart(true);
     var timeLeft = parseInt(timeInterval) * 60; //Convert minutes to seconds
@@ -86,9 +69,8 @@ function StudyPomodoroScreen({ route, navigation }) {
     setBreakDialogVisible(!breakDialogVisible);
   };
 
-  //a bit wonky this code
   function startShortBreakSession() {
-    //Update firebase here -2
+    //Update firebase state here - 2 - indicates shortBreak
     updateFirebaseState("task1", "2");
     var breaktime = parseInt(shortBreak) * 60; //Convert minutes to seconds
     setBreakTimeLeft(breaktime);
@@ -102,7 +84,6 @@ function StudyPomodoroScreen({ route, navigation }) {
 
   const showTimeLeftDisplayComponent = (
     <Text style={styles.paragraphText}>
-      {/* Total time left: {secondsToHms(timeLeft)}{" "} */}
       Total time left: {convertToTimeFormat(timeLeft)} mins{" "}
     </Text>
   );
@@ -131,10 +112,6 @@ function StudyPomodoroScreen({ route, navigation }) {
         />
       </View>
 
-      {/* <Text>
-        UID: {uid}, Title: {title}, Description: {description}, Date: {date},
-        Completed: {completed}
-      </Text> */}
       <Button title="Start Session" onPress={startSession} />
       <View>
         <Text style={styles.paragraphText}>Objective: {title}</Text>
@@ -149,11 +126,6 @@ function StudyPomodoroScreen({ route, navigation }) {
           : hideTimeLeftDisplayComponent}
         <Button title="Show Timing" onPress={toggleTimeLeftDisplay} />
       </View>
-      {/* <Button
-        title="Session Completed"
-        disabled={timeLeft != 0}
-        onPress={toggleBreakDialog}
-      /> */}
 
       <Dialog
         isVisible={breakDialogVisible}
@@ -216,7 +188,6 @@ const styles = StyleSheet.create({
     width: "70%",
     fontFamily: "OpenSans-Medium",
     fontSize: 18,
-    // fontStyle: "bold",
     color: "#be2596",
   },
 });
