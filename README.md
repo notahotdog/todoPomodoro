@@ -30,4 +30,5 @@ TodoList Pomodoro App uses a number of open source projects to work properly:
 a. Create a .env file on the top most level directory
 b. Set **Firebase Realtime Database secret** valuess in the .env file prior to running the npm start command
 ![Screenshot 2023-01-02 at 1 09 08 AM](https://user-images.githubusercontent.com/40038371/210179163-a047efbb-d67f-4f46-bc7e-06ed75e797ce.png)
+
 4.Once the server has been started, scan the qr code using your camera app(iphone) or through the expo app(android)
